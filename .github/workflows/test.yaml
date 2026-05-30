@@ -18,9 +18,7 @@ jobs:
     steps:
       - name: Validate AWS inputs
         run: |
-          if [ -z "${{ secrets.AWS_REGION }}" ]; then echo "Missing AWS_REGION secret" >&2; exit 1; fi
-          if [ -z "${{ secrets.AWS_ROLE || secrets.IAM_ROLE }}" ]; then echo "Missing AWS_ROLE or IAM_ROLE secret" >&2; exit 1; fi
-
+    
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
