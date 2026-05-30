@@ -33,12 +33,9 @@ jobs:
        
       - name: Terraform initialize
         run: terraform init
-        working-directory: website
 
       - name: Terraform plan
         run: terraform plan
-        working-directory: website
 
       - name: Terraform apply
-        run: terraform apply -auto-approve  
-        working-directory: website
+        run: terraform apply -auto-approve
