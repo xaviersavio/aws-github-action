@@ -29,13 +29,13 @@ jobs:
           echo "$payload" | python3 -c 'import base64, json, sys; p=sys.stdin.read().strip(); print(json.dumps(json.loads(base64.urlsafe_b64decode(p).decode()), indent=2))'
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.IAM_ROLE }}
-        
-        
-       
+          audience: sts.amazonaws.com
+          role-session-name: github-actions-${{ github.run_id }}
+          unset-current-credentials: true
 
       - name: List S3 buckets
         run: |
