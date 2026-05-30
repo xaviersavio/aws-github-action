@@ -30,11 +30,18 @@ jobs:
           payload+=$(python3 -c 'import sys; s=sys.stdin.read().strip(); print("="*((4-len(s)%4)%4))' <<<"$payload")
           echo "$payload" | python3 -c 'import base64, json, sys; p=sys.stdin.read().strip(); print(json.dumps(json.loads(base64.urlsafe_b64decode(p).decode()), indent=2))'
 
+      - name: Check role secret presence
+        shell: bash
+        run: |
+          if [ -n "${{ secrets.AWS_ROLE }}" ]; then echo "AWS_ROLE is set"; fi
+          if [ -n "${{ secrets.IAM_ROLE }}" ]; then echo "IAM_ROLE is set"; fi
+          if [ -z "${{ secrets.AWS_ROLE }}${{ secrets.IAM_ROLE }}" ]; then echo "No role secret set" >&2; exit 1; fi
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
           aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.IAM_ROLE }}
+          role-to-assume: ${{ secrets.AWS_ROLE || secrets.IAM_ROLE }}
           audience: sts.amazonaws.com
           role-session-name: github-actions-${{ github.run_id }}
           unset-current-credentials: true
