@@ -16,27 +16,6 @@ jobs:
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
     steps:
-      - name: Debug OIDC token claims
-        if: always()
-        shell: bash
-        run: |
-          echo "ACTIONS_ID_TOKEN_REQUEST_URL=$ACTIONS_ID_TOKEN_REQUEST_URL"
-          echo "ACTIONS_ID_TOKEN_REQUEST_TOKEN=***"
-          url="$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com"
-          echo "REQUEST_URL=$url"
-          token=$(curl -fsSL -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$url")
-          echo "Fetched OIDC token"
-          payload=$(echo "$token" | cut -d'.' -f2)
-          payload+=$(python3 -c 'import sys; s=sys.stdin.read().strip(); print("="*((4-len(s)%4)%4))' <<<"$payload")
-          echo "$payload" | python3 -c 'import base64, json, sys; p=sys.stdin.read().strip(); print(json.dumps(json.loads(base64.urlsafe_b64decode(p).decode()), indent=2))'
-
-      - name: Check role secret presence
-        shell: bash
-        run: |
-          if [ -n "${{ secrets.AWS_ROLE }}" ]; then echo "AWS_ROLE is set"; fi
-          if [ -n "${{ secrets.IAM_ROLE }}" ]; then echo "IAM_ROLE is set"; fi
-          if [ -z "${{ secrets.AWS_ROLE }}${{ secrets.IAM_ROLE }}" ]; then echo "No role secret set" >&2; exit 1; fi
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
