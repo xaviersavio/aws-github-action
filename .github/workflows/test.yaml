@@ -22,7 +22,7 @@ jobs:
           if [ -z "${{ secrets.AWS_ROLE || secrets.IAM_ROLE }}" ]; then echo "Missing AWS_ROLE or IAM_ROLE secret" >&2; exit 1; fi
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6.1.0
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.IAM_ROLE }}
