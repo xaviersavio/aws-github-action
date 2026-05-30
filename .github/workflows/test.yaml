@@ -1,4 +1,4 @@
-name: List S3 buckets
+name: List S3 bucketss
 
 on:
   push:
