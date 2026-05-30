@@ -1,4 +1,5 @@
-name: List S3 bucket
+name: List S3 buckets
+run-name: List S3 buckets #${{ github.run_number }}
 
 on:
   push:
