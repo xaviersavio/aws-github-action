@@ -33,12 +33,12 @@ jobs:
        
       - name: Terraform initialize
         run: terraform init
-        working-directory: vpc
+        working-directory: website
 
       - name: Terraform plan
         run: terraform plan
-        working-directory: vpc
+        working-directory: website
 
       - name: Terraform apply
         run: terraform apply -auto-approve  
-        working-directory: vpc
+        working-directory: website
