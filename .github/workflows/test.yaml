@@ -22,7 +22,9 @@ jobs:
         run: |
           echo "ACTIONS_ID_TOKEN_REQUEST_URL=$ACTIONS_ID_TOKEN_REQUEST_URL"
           echo "ACTIONS_ID_TOKEN_REQUEST_TOKEN=***"
-          token=$(curl -fsSL -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL")
+          url="$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com"
+          echo "REQUEST_URL=$url"
+          token=$(curl -fsSL -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$url")
           echo "Fetched OIDC token"
           payload=$(echo "$token" | cut -d'.' -f2)
           payload+=$(python3 -c 'import sys; s=sys.stdin.read().strip(); print("="*((4-len(s)%4)%4))' <<<"$payload")
