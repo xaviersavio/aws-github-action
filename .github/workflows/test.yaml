@@ -13,22 +13,24 @@ permissions:
 jobs:
   listing_buckets:
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
     steps:
       - name: Validate AWS inputs
         run: |
           if [ -z "${{ secrets.AWS_REGION }}" ]; then echo "Missing AWS_REGION secret" >&2; exit 1; fi
-          if [ -z "${{ secrets.IAM_ROLE }}" ]; then echo "Missing IAM_ROLE secret" >&2; exit 1; fi
+          if [ -z "${{ secrets.AWS_ROLE || secrets.IAM_ROLE }}" ]; then echo "Missing AWS_ROLE or IAM_ROLE secret" >&2; exit 1; fi
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.IAM_ROLE }}
-         
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE || secrets.IAM_ROLE }}
+          audience: sts.amazonaws.com
+          role-session-name: github-actions-${{ github.run_id }}
+          unset-current-credentials: true
 
       - name: List S3 buckets
-        env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           echo "Listing S3 Buckets"
           aws s3 ls
