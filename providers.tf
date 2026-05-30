@@ -15,10 +15,10 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "tfstate-dev-ap-southeast-2-jokg8r"
-    key            = "vpc/terraform.tfstate"
-    region         = "ap-southeast-2"
-    encrypt        = true
-    dynamodb_table = "terraform"
+    bucket        = "tfstate-dev-ap-southeast-2-jokg8r"
+    key           = "vpc/terraform.tfstate"
+    region        = "ap-southeast-2"
+    encrypt       = true
+    use_lockfile  = true
   }
 }
