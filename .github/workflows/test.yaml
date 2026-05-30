@@ -13,8 +13,13 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
-          aws-region: ap-southeast-2
-          role-to-assume: arn:aws:iam::123456789100:role/my-github-actions-role
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+
       - name: List S3 buckets
-        run: aws s3 ls
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          echo "Listing S3 Buckets"
+          aws s3 ls
 
