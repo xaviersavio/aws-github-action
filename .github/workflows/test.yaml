@@ -23,7 +23,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
           aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-to-assume: ${{ secrets.IAM_ROLE }}
           role-session-name: github-actions-${{ github.run_id }}
           unset-current-credentials: true
 
