@@ -17,6 +17,8 @@ jobs:
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
@@ -26,8 +28,17 @@ jobs:
           role-session-name: github-actions-${{ github.run_id }}
           unset-current-credentials: true
 
-      - name: List S3 buckets
-        run: |
-          echo "Listing S3 Buckets"
-          aws s3 ls
+      - name: Terraform dwnload
+        uses: hashicorp/setup-terraform@v4
+       
+      - name: Terraform initialize
+        run: terraform init
+        working-directory: vpc
 
+      - name: Terraform plan
+        run: terraform plan
+        working-directory: vpc
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve  
+        working-directory: vpc
