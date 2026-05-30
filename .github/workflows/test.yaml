@@ -16,9 +16,7 @@ jobs:
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
     steps:
-      - name: Validate AWS inputs
-        run: |
-    
+         
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
