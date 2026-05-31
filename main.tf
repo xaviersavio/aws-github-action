@@ -22,7 +22,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
 
  resource "aws_instance" "example" {
    ami           = "ami-0d51758a4bd2afc6c" 
-   instance_type = var.instance_type == "production" ? "t3.micro" : "t2.micro"
+   instance_type = var.instance_type != "production" ? "t3.micro" : "t2.micro"
 
    tags = {
     Name = "example-instance"
