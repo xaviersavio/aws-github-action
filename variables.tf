@@ -10,3 +10,10 @@ variable "cidr_ipv4" {
   type        = string
   default     = "0.0.0.0/32"
 }
+
+variable "users" {
+  description = "A list of users"
+  type        = list
+  default     = ["john", "satan", "maxiwell"]
+}
+
