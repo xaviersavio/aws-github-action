@@ -11,9 +11,9 @@ variable "cidr_ipv4" {
   default     = "0.0.0.0/32"
 }
 
-# variable "users" {
-#   description = "A list of users"
-#   type        = list
-#   default     = ["john", "satan", "maxiwell"]
-# }
+variable "users" {
+  description = "A list of users"
+  type        = list
+  default     = ["john", "satan", "maxiwell"]
+}
 

@@ -29,7 +29,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
 #   }
 # }
 
-resource "aws_iam_user" "lb" {
-  name = var.users[count.index]
-  count = length(var.users)
-}
+# resource "aws_iam_user" "lb" {
+#   name = var.users[count.index]
+#   count = length(var.users)
+# }
