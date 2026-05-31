@@ -20,14 +20,14 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
 
-# resource "aws_instance" "example" {
-#   ami           = "ami-0d51758a4bd2afc6c" 
-#   instance_type = "t3.micro"
+ resource "aws_instance" "example" {
+   ami           = "ami-0d51758a4bd2afc6c" 
+   instance_type = var.instance_type == "production" ? "t3.medium" : "t3.micro"
 
-#   tags = {
-#     Name = "example-instance"
-#   }
-# }
+   tags = {
+    Name = "example-instance"
+   }
+ }
 
 # resource "aws_iam_user" "lb" {
 #   name = var.users[count.index]
